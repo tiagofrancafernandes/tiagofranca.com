@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="i18n()" :lang="lang">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title x-text="lang === 'pt' ? 'Tiago França Fernandes - Desenvolvedor PHP, Laravel, Vue & DevOps' : 'Tiago França Fernandes - PHP, Laravel, Vue & DevOps Developer'"></title>
+  <meta name="description" content="Desenvolvedor backend especializado em PHP (Laravel), Vue 3, Nuxt, TailwindCSS e AWS. Linux lover, educador e apaixonado por performance e automação.">
+
+  <!-- SEO -->
+  <meta property="og:title" content="Tiago França Fernandes - Desenvolvedor PHP, Laravel, Vue & DevOps" />
+  <meta property="og:description" content="PHP, Laravel, Vue, Nuxt, Tailwind, AWS, Linux e ensino técnico. Veja meu portfólio." />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/12686262?v=4" />
+  <meta property="og:url" content="https://tiagofrancafernandes.dev" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Ícone -->
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/12686262?v=4" />
+
+  <!-- Tailwind CSS v4 via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Alpine.js v3 + Reusable Data Component -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('dropdown', () => ({
+        open: false,
+        toggle() {
+          this.open = !this.open
+        },
+      }))
+
+      Alpine.data('i18n', () => ({
+        lang: 'pt',
+        toggleLang() {
+          this.lang = this.lang === 'pt' ? 'en' : 'pt'
+        }
+      }))
+    })
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+  <header class="bg-white shadow sticky top-0 z-10">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="https://avatars.githubusercontent.com/u/12686262?v=4" alt="Tiago França Fernandes" class="w-12 h-12 rounded-full" />
+        <h1 class="text-xl font-bold">Tiago França Fernandes</h1>
+      </div>
+      <nav class="flex gap-4 text-sm">
+        <a href="https://github.com/tiagofrancafernandes" target="_blank" class="text-gray-600 hover:text-black">GitHub</a>
+        <a href="https://br.linkedin.com/in/tiago-php" target="_blank" class="text-gray-600 hover:text-black">LinkedIn</a>
+        <a href="https://www.superprof.com.br/aulas-programacao-php-laravel-basico-avancado-sem-restricao-idade.html" target="_blank" class="text-gray-600 hover:text-black">Superprof</a>
+        <button @click="toggleLang" class="ml-4 text-xs border px-2 py-1 rounded hover:bg-gray-100">
+          <span x-text="lang === 'pt' ? 'EN' : 'PT'"></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-12 space-y-16">
+
+    <section class="text-center">
+      <h2 class="text-3xl font-bold mb-4" x-text="lang === 'pt' ? 'Desenvolvedor Backend & Educador Técnico' : 'Backend Developer & Technical Educator'"></h2>
+      <p class="text-lg text-gray-700" x-show="lang === 'pt'">
+        Especialista em <strong>PHP</strong>, <strong>Laravel</strong>, <strong>Vue 3</strong> e <strong>Nuxt 4</strong>, com forte atuação em <strong>Linux</strong>, <strong>infraestrutura AWS</strong> e automações. Também atuo como educador e criador de conteúdo técnico.
+      </p>
+      <p class="text-lg text-gray-700" x-show="lang === 'en'">
+        Specialized in <strong>PHP</strong>, <strong>Laravel</strong>, <strong>Vue 3</strong>, and <strong>Nuxt 4</strong>. Strong background in <strong>Linux</strong>, <strong>AWS infrastructure</strong>, and automation. Also a technical educator and content creator.
+      </p>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-6" x-text="lang === 'pt' ? 'Stack Principal' : 'Main Tech Stack'"></h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 text-center">
+        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">PHP / Laravel</div>
+        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">Vue 3 / Nuxt 3–4</div>
+        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">TailwindCSS</div>
+        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">Alpine.js</div>
+        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">PostgreSQL / Redis</div>
+        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">AWS / Docker / Linux</div>
+      </div>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-6" x-text="lang === 'pt' ? 'Experiência & Filosofia' : 'Experience & Philosophy'"></h3>
+      <ul class="space-y-3 text-gray-700 list-disc list-inside" x-show="lang === 'pt'">
+        <li>8+ anos de PHP, 5+ com Laravel, CLI e boas práticas (sem supressão de erros).</li>
+        <li>Vue 3 + Composition API, SSR com Nuxt, TailwindCSS v4 em produção.</li>
+        <li>Shell Script e automações com Docker, backups PostgreSQL via SCP.</li>
+        <li>Criação de interfaces com foco em acessibilidade, desempenho e clareza.</li>
+        <li>Envolvimento ativo com ensino técnico (particulares, conteúdo, e-books).</li>
+      </ul>
+      <ul class="space-y-3 text-gray-700 list-disc list-inside" x-show="lang === 'en'">
+        <li>8+ years with PHP, 5+ with Laravel, CLI tools and clean practices (no error suppression).</li>
+        <li>Vue 3 + Composition API, SSR with Nuxt, TailwindCSS v4 in production.</li>
+        <li>Shell scripting, Docker automations, PostgreSQL backup via SCP.</li>
+        <li>Focus on accessibility, clarity and performance in UI development.</li>
+        <li>Active involvement in teaching, content creation and e-books.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-6" x-text="lang === 'pt' ? 'Contato' : 'Contact'"></h3>
+      <p class="text-gray-700" x-show="lang === 'pt'">
+        Quer colaborar, contratar ou bater um papo sobre tecnologia?
+        <br />
+        Me chame no WhatsApp ou visite os links acima.
+      </p>
+      <p class="text-gray-700" x-show="lang === 'en'">
+        Want to collaborate, hire, or talk tech?
+        <br />
+        Message me on WhatsApp or visit my social profiles above.
+      </p>
+    </section>
+  </main>
+
+  <!-- Botão flutuante WhatsApp -->
+  <a href="https://wa.me/5511999999999" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21l1.1-4.4A9 9 0 1112 21a9 9 0 01-4.4-1.1L3 21z" />
+    </svg>
+  </a>
+
+</body>
+</html>
