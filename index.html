@@ -24,21 +24,59 @@
   <!-- Alpine.js v3 + Reusable Data Component -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('dropdown', () => ({
-        open: false,
-        toggle() {
-          this.open = !this.open
+    document.addEventListener('alpine:init', () => {    
+    Alpine.data('app', () => ({
+      locale: 'en',
+      translations: {
+        en: {
+          greeting: "Hello, I'm Tiago",
+          about: "About me",
+          contact: "Contact",
+          language: "Language",
         },
-      }))
-
-      Alpine.data('i18n', () => ({
-        lang: 'pt',
-        toggleLang() {
-          this.lang = this.lang === 'pt' ? 'en' : 'pt'
+        pt: {
+          greeting: "Olá, eu sou o Tiago",
+          about: "Sobre mim",
+          contact: "Contato",
+          language: "Idioma",
         }
-      }))
-    })
+      },
+
+      get lang() {
+        return this.locale || 'en';
+      },
+
+      init() {
+        this.initLanguage();
+      },
+
+      initLanguage() {
+        const savedLang = localStorage.getItem('lang');
+        const browserLang = navigator.language.slice(0, 2);
+
+        if (savedLang) {
+          this.locale = savedLang;
+        } else if (browserLang === 'pt') {
+          this.locale = 'pt';
+        } else {
+          this.locale = 'en';
+        }
+      },
+
+      setLang(lang) {
+        this.locale = lang;
+        localStorage.setItem('lang', lang);
+      },
+
+      t(key) {
+        return this.translations[this.locale][key] || key;
+      },
+      toggleLang() {
+          let lang = this.locale === 'pt' ? 'en' : 'pt';
+          this.setLang(lang);
+      }
+    }))
+  })
   </script>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans">
@@ -123,6 +161,20 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21l1.1-4.4A9 9 0 1112 21a9 9 0 01-4.4-1.1L3 21z" />
     </svg>
   </a>
+  <div>
+  <header>
+    <h1 x-text="t('greeting')"></h1>
+    <button @click="setLang('en')">🇺🇸 EN</button>
+    <button @click="setLang('pt')">🇧🇷 PT</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#about" x-text="t('about')"></a></li>
+      <li><a href="#contact" x-text="t('contact')"></a></li>
+    </ul>
+  </nav>
+</div>
 
 </body>
 </html>
