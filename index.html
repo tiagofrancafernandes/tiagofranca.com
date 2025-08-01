@@ -92,6 +92,8 @@
         <h1 class="text-xl font-bold">Tiago França Fernandes</h1>
       </div>
       <nav class="flex gap-4 text-sm">
+        <a href="#about" x-text="t('about')" class="text-gray-600 hover:text-black"></a>
+        <a href="#contact" x-text="t('contact')" class="text-gray-600 hover:text-black"></a>
         <a href="https://github.com/tiagofrancafernandes" target="_blank" class="text-gray-600 hover:text-black">GitHub</a>
         <a href="https://br.linkedin.com/in/tiago-php" target="_blank" class="text-gray-600 hover:text-black">LinkedIn</a>
         <a href="https://www.superprof.com.br/aulas-programacao-php-laravel-basico-avancado-sem-restricao-idade.html" target="_blank" class="text-gray-600 hover:text-black">Superprof</a>
@@ -165,20 +167,13 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21l1.1-4.4A9 9 0 1112 21a9 9 0 01-4.4-1.1L3 21z" />
     </svg>
   </a>
-  <div>
-  <header>
-    <h1 x-text="t('greeting')"></h1>
-    <button @click="setLang('en')">🇺🇸 EN</button>
-    <button @click="setLang('pt')">🇧🇷 PT</button>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="#about" x-text="t('about')"></a></li>
-      <li><a href="#contact" x-text="t('contact')"></a></li>
-    </ul>
-  </nav>
-</div>
+  <footer>
+        <div class="text-center">
+            <span x-text="t('title')"></span>
+            <button @click="setLang('en')">🇺🇸 EN</button>
+            <button @click="setLang('pt')">🇧🇷 PT</button>
+        </div>
+  </footer>
 
 </body>
 </html>
