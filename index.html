@@ -15,6 +15,10 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <style>
+    [x-cloak] { display: none !important; }
+  </style>
+
   <!-- Ícone -->
   <link rel="icon" href="https://avatars.githubusercontent.com/u/12686262?v=4" />
 
@@ -91,8 +95,8 @@
         <a href="https://github.com/tiagofrancafernandes" target="_blank" class="text-gray-600 hover:text-black">GitHub</a>
         <a href="https://br.linkedin.com/in/tiago-php" target="_blank" class="text-gray-600 hover:text-black">LinkedIn</a>
         <a href="https://www.superprof.com.br/aulas-programacao-php-laravel-basico-avancado-sem-restricao-idade.html" target="_blank" class="text-gray-600 hover:text-black">Superprof</a>
-        <button @click="toggleLang" class="ml-4 text-xs border px-2 py-1 rounded hover:bg-gray-100">
-          <span x-text="lang === 'pt' ? 'EN' : 'PT'"></span>
+        <button x-cloak @click="toggleLang" class="ml-4 text-xs border px-2 py-1 rounded hover:bg-gray-100">
+          <span x-text="['pt', 'pt-br'].includes(lang) ? 'EN' : 'PT'"></span>
         </button>
       </nav>
     </div>
