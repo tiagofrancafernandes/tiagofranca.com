@@ -1,179 +1,893 @@
 <!DOCTYPE html>
-<html lang="pt-BR" x-data="app()" :lang="lang">
+<html lang="en" x-data="app()" :lang="lang === 'pt' ? 'pt-BR' : 'en'" :class="{ 'dark': darkMode }" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title x-text="t.meta.title">Tiago Franca - Senior Backend Engineer</title>
+    <meta name="description" :content="t.meta.description">
+    <meta name="author" content="Tiago Franca Fernandes">
+    <meta name="keywords" content="PHP, Laravel, Backend, API, Software Engineer, Developer">
 
-  <title x-text="lang === 'pt' ? 'Tiago França Fernandes - Desenvolvedor PHP, Laravel, Vue & DevOps' : 'Tiago França Fernandes - PHP, Laravel, Vue & DevOps Developer'"></title>
-  <meta name="description" content="Desenvolvedor backend especializado em PHP (Laravel), Vue 3, Nuxt, TailwindCSS e AWS. Linux lover, educador e apaixonado por performance e automação.">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://coming-soon-page-in-vue-js.vercel.app/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://avatars.githubusercontent.com/u/8310974?v=4">
 
-  <!-- SEO -->
-  <meta property="og:title" content="Tiago França Fernandes - Desenvolvedor PHP, Laravel, Vue & DevOps" />
-  <meta property="og:description" content="PHP, Laravel, Vue, Nuxt, Tailwind, AWS, Linux e ensino técnico. Veja meu portfólio." />
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/8310974?v=4" />
-  <meta property="og:url" content="https://tiagofrancafernandes.dev" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tiagofranca.com">
+    <meta property="og:title" content="Tiago Franca - Senior Backend Engineer">
+    <meta property="og:description" content="Senior software engineer specialized in PHP, Laravel, APIs and system architecture. Building robust, scalable systems.">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/8310974?s=400&v=4">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="400">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="pt_BR">
 
-  <style>
-    [x-cloak] { display: none !important; }
-  </style>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Tiago Franca - Senior Backend Engineer">
+    <meta name="twitter:description" content="Senior software engineer specialized in PHP, Laravel, APIs and system architecture.">
+    <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/8310974?s=400&v=4">
 
-  <!-- Ícone -->
-  <link rel="icon" href="https://avatars.githubusercontent.com/u/8310974?v=4" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS v4 via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-  <!-- Alpine.js v3 + Reusable Data Component -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <script>
-    document.addEventListener('alpine:init', () => {    
-    Alpine.data('app', () => ({
-      locale: 'en',
-      translations: {
-        en: {
-          greeting: "Hello, I'm Tiago",
-          about: "About me",
-          contact: "Contact",
-          language: "Language",
-        },
-        pt: {
-          greeting: "Olá, eu sou o Tiago",
-          about: "Sobre mim",
-          contact: "Contato",
-          language: "Idioma",
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        accent: {
+                            DEFAULT: '#10b981',
+                            dark: '#059669',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                }
+            }
         }
-      },
+    </script>
 
-      get lang() {
-        return this.locale || 'en';
-      },
-
-      init() {
-        this.initLanguage();
-      },
-
-      initLanguage() {
-        const savedLang = localStorage.getItem('lang');
-        const browserLang = navigator.language.slice(0, 2);
-
-        if (savedLang) {
-          this.locale = savedLang;
-        } else if (browserLang === 'pt') {
-          this.locale = 'pt';
-        } else {
-          this.locale = 'en';
+    <style>
+        /* Geist Font */
+        @font-face {
+            font-family: 'Geist';
+            src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
         }
-      },
+        @font-face {
+            font-family: 'Geist';
+            src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Geist';
+            src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Geist';
+            src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
 
-      setLang(lang) {
-        this.locale = lang;
-        localStorage.setItem('lang', lang);
-      },
+        html { scroll-behavior: smooth; }
 
-      t(key) {
-        return this.translations[this.locale][key] || key;
-      },
-      toggleLang() {
-          let lang = this.locale === 'pt' ? 'en' : 'pt';
-          this.setLang(lang);
-      }
-    }))
-  })
-  </script>
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        .dark ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+        /* Grid pattern */
+        .grid-pattern {
+            background-image:
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+        .dark .grid-pattern {
+            background-image:
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+        }
+
+        /* Skill bar animation */
+        .skill-bar { transition: width 1s ease-out; }
+
+        /* Animation delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+    </style>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased transition-colors duration-300">
 
-  <header class="bg-white shadow sticky top-0 z-10">
-    <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <img src="https://avatars.githubusercontent.com/u/8310974?v=4" alt="Tiago França Fernandes" class="w-12 h-12 rounded-full" />
-        <h1 class="text-xl font-bold">Tiago França Fernandes</h1>
-      </div>
-      <nav class="flex gap-4 text-sm">
-        <a href="#about" x-text="t('about')" class="text-gray-600 hover:text-black"></a>
-        <a href="#contact" x-text="t('contact')" class="text-gray-600 hover:text-black"></a>
-        <a href="https://github.com/tiagofrancafernandes" target="_blank" class="text-gray-600 hover:text-black">GitHub</a>
-        <a href="https://br.linkedin.com/in/tiago-php" target="_blank" class="text-gray-600 hover:text-black">LinkedIn</a>
-        <a href="https://www.superprof.com.br/aulas-programacao-php-laravel-basico-avancado-sem-restricao-idade.html" target="_blank" class="text-gray-600 hover:text-black">Superprof</a>
-        <button x-cloak @click="toggleLang" class="ml-4 text-xs border px-2 py-1 rounded hover:bg-gray-100">
-          <span x-text="['pt', 'pt-br'].includes(lang) ? 'EN' : 'PT'"></span>
-        </button>
-      </nav>
-    </div>
-  </header>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-zinc-950/80 border-b border-zinc-200 dark:border-zinc-800/50">
+        <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="font-semibold text-lg tracking-tight hover:text-accent transition-colors">
+                tf<span class="text-accent">.</span>
+            </a>
 
-  <main class="max-w-5xl mx-auto px-4 py-12 space-y-16">
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" x-text="t.nav.about"></a>
+                <a href="#skills" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" x-text="t.nav.skills"></a>
+                <a href="#experience" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" x-text="t.nav.experience"></a>
+                <a x-show="portfolio.length > 0" href="#portfolio" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" x-text="t.nav.portfolio"></a>
+                <a href="#links" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" x-text="t.nav.links"></a>
+                <a href="#contact" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" x-text="t.nav.contact"></a>
+            </div>
 
-    <section class="text-center">
-      <h2 class="text-3xl font-bold mb-4" x-text="lang === 'pt' ? 'Desenvolvedor Backend & Educador Técnico' : 'Backend Developer & Technical Educator'"></h2>
-      <p class="text-lg text-gray-700" x-show="lang === 'pt'">
-        Especialista em <strong>PHP</strong>, <strong>Laravel</strong>, <strong>Vue 3</strong> e <strong>Nuxt 4</strong>, com forte atuação em <strong>Linux</strong>, <strong>infraestrutura AWS</strong> e automações. Também atuo como educador e criador de conteúdo técnico.
-      </p>
-      <p class="text-lg text-gray-700" x-show="lang === 'en'">
-        Specialized in <strong>PHP</strong>, <strong>Laravel</strong>, <strong>Vue 3</strong>, and <strong>Nuxt 4</strong>. Strong background in <strong>Linux</strong>, <strong>AWS infrastructure</strong>, and automation. Also a technical educator and content creator.
-      </p>
-    </section>
+            <!-- Controls -->
+            <div class="flex items-center gap-2">
+                <button @click="toggleLang()" class="px-3 py-1.5 text-xs font-mono font-medium rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors" x-text="lang === 'pt' ? 'EN' : 'PT'"></button>
 
-    <section>
-      <h3 class="text-2xl font-semibold mb-6" x-text="lang === 'pt' ? 'Stack Principal' : 'Main Tech Stack'"></h3>
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 text-center">
-        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">PHP / Laravel</div>
-        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">Vue 3 / Nuxt 3–4</div>
-        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">TailwindCSS</div>
-        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">Alpine.js</div>
-        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">PostgreSQL / Redis</div>
-        <div class="p-4 rounded-xl bg-white shadow hover:shadow-md">AWS / Docker / Linux</div>
-      </div>
-    </section>
+                <button @click="toggleTheme()" class="p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+                    <svg x-show="darkMode" class="w-5 h-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg x-show="!darkMode" class="w-5 h-5 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
 
-    <section>
-      <h3 class="text-2xl font-semibold mb-6" x-text="lang === 'pt' ? 'Experiência & Filosofia' : 'Experience & Philosophy'"></h3>
-      <ul class="space-y-3 text-gray-700 list-disc list-inside" x-show="lang === 'pt'">
-        <li>8+ anos de PHP, 5+ com Laravel, CLI e boas práticas (sem supressão de erros).</li>
-        <li>Vue 3 + Composition API, SSR com Nuxt, TailwindCSS v4 em produção.</li>
-        <li>Shell Script e automações com Docker, backups PostgreSQL via SCP.</li>
-        <li>Criação de interfaces com foco em acessibilidade, desempenho e clareza.</li>
-        <li>Envolvimento ativo com ensino técnico (particulares, conteúdo, e-books).</li>
-      </ul>
-      <ul class="space-y-3 text-gray-700 list-disc list-inside" x-show="lang === 'en'">
-        <li>8+ years with PHP, 5+ with Laravel, CLI tools and clean practices (no error suppression).</li>
-        <li>Vue 3 + Composition API, SSR with Nuxt, TailwindCSS v4 in production.</li>
-        <li>Shell scripting, Docker automations, PostgreSQL backup via SCP.</li>
-        <li>Focus on accessibility, clarity and performance in UI development.</li>
-        <li>Active involvement in teaching, content creation and e-books.</li>
-      </ul>
-    </section>
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path x-show="!mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                        <path x-show="mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
 
-    <section>
-      <h3 class="text-2xl font-semibold mb-6" x-text="lang === 'pt' ? 'Contato' : 'Contact'"></h3>
-      <p class="text-gray-700" x-show="lang === 'pt'">
-        Quer colaborar, contratar ou bater um papo sobre tecnologia?
-        <br />
-        Me chame no WhatsApp ou visite os links acima.
-      </p>
-      <p class="text-gray-700" x-show="lang === 'en'">
-        Want to collaborate, hire, or talk tech?
-        <br />
-        Message me on WhatsApp or visit my social profiles above.
-      </p>
-    </section>
-  </main>
-
-  <!-- Botão flutuante WhatsApp -->
-  <a href="https://wa.me/5511999999999" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21l1.1-4.4A9 9 0 1112 21a9 9 0 01-4.4-1.1L3 21z" />
-    </svg>
-  </a>
-  <footer>
-        <div class="text-center">
-            <span x-text="t('language')"></span>
-            <button @click="setLang('en')">🇺🇸 EN</button>
-            <button @click="setLang('pt')">🇧🇷 PT</button>
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenu" x-transition class="md:hidden border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950" @click.away="mobileMenu = false">
+            <div class="px-6 py-4 flex flex-col gap-4">
+                <a @click="mobileMenu = false" href="#about" class="text-sm text-zinc-600 dark:text-zinc-400" x-text="t.nav.about"></a>
+                <a @click="mobileMenu = false" href="#skills" class="text-sm text-zinc-600 dark:text-zinc-400" x-text="t.nav.skills"></a>
+                <a @click="mobileMenu = false" href="#experience" class="text-sm text-zinc-600 dark:text-zinc-400" x-text="t.nav.experience"></a>
+                <a x-show="portfolio.length > 0" @click="mobileMenu = false" href="#portfolio" class="text-sm text-zinc-600 dark:text-zinc-400" x-text="t.nav.portfolio"></a>
+                <a @click="mobileMenu = false" href="#links" class="text-sm text-zinc-600 dark:text-zinc-400" x-text="t.nav.links"></a>
+                <a @click="mobileMenu = false" href="#contact" class="text-sm text-zinc-600 dark:text-zinc-400" x-text="t.nav.contact"></a>
+                <div class="pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                    <a href="https://linkedin.com/in/tiago-php" target="_blank" class="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-accent hover:bg-accent-dark text-white font-medium rounded-lg transition-colors" x-text="t.hero.cta.contact"></a>
+                </div>
+            </div>
         </div>
-  </footer>
+    </header>
 
+    <main>
+        <!-- Hero Section -->
+        <section class="min-h-screen grid-pattern flex items-center pt-16">
+            <div class="max-w-5xl mx-auto px-6 py-20 md:py-32">
+                <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-8">
+                        <div class="animate-fade-in">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent border border-accent/20">
+                                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+                                <span x-text="t.hero.status"></span>
+                            </span>
+                        </div>
+
+                        <div class="space-y-4 animate-slide-up delay-100">
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]">Tiago Franca</h1>
+                            <p class="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 font-light">Senior Backend Engineer</p>
+                        </div>
+
+                        <p class="text-lg text-zinc-500 max-w-xl animate-slide-up delay-200" x-text="t.hero.tagline"></p>
+
+                        <div class="flex flex-wrap gap-2 animate-slide-up delay-300">
+                            <template x-for="tech in coreStack" :key="tech">
+                                <span class="px-3 py-1.5 text-sm font-mono bg-zinc-100 dark:bg-zinc-800/50 text-zinc-700 dark:text-zinc-300 rounded-md border border-zinc-200 dark:border-zinc-700/50" x-text="tech"></span>
+                            </template>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4 pt-4 animate-slide-up delay-400">
+                            <a href="https://linkedin.com/in/tiago-php" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-accent hover:bg-accent-dark text-white font-medium rounded-lg transition-colors">
+                                <span x-text="t.hero.cta.contact"></span>
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                            </a>
+                            <a href="https://github.com/tiagofrancafernandes" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium rounded-lg transition-colors">
+                                <img src="https://api.iconify.design/mdi:github.svg?color=%23888" alt="" class="w-5 h-5 dark:invert">
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex justify-center lg:justify-end animate-fade-in delay-300">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent rounded-2xl blur-2xl scale-110"></div>
+                            <img src="https://avatars.githubusercontent.com/u/8310974?s=400&v=4" alt="Tiago Franca" class="relative w-56 h-56 md:w-72 md:h-72 rounded-2xl object-cover border-2 border-zinc-200 dark:border-zinc-800 shadow-xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 md:py-32 border-t border-zinc-200 dark:border-zinc-800/50">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-4">
+                        <span class="text-sm font-mono text-accent" x-text="'01 -- ' + t.nav.about"></span>
+                    </div>
+
+                    <div class="lg:col-span-8 space-y-6">
+                        <p class="text-lg md:text-xl text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="t.about.p1"></p>
+                        <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed" x-text="t.about.p2"></p>
+                        <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed" x-text="t.about.p3"></p>
+
+                        <!-- English Certificate -->
+                        <div class="flex items-center gap-3 p-4 bg-zinc-50 dark:bg-zinc-800/30 rounded-lg border border-zinc-200 dark:border-zinc-700/50">
+                            <div class="w-10 h-10 flex items-center justify-center bg-accent/10 rounded-lg shrink-0">
+                                <img src="https://api.iconify.design/mdi:translate.svg?color=%2310b981" alt="" class="w-5 h-5">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-zinc-700 dark:text-zinc-300">English: B2 Upper Intermediate</p>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">EF SET 51/100 (Apr 2026)</p>
+                            </div>
+                            <a href="https://cert.efset.org/en/RJiYTb" target="_blank" class="text-xs font-mono text-accent hover:underline shrink-0" x-text="t.about.viewCert"></a>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-zinc-200 dark:border-zinc-800/50">
+                            <div>
+                                <p class="text-3xl font-bold text-accent">10+</p>
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400" x-text="t.about.stats.years"></p>
+                            </div>
+                            <div>
+                                <p class="text-3xl font-bold">8+</p>
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400" x-text="t.about.stats.laravel"></p>
+                            </div>
+                            <div>
+                                <p class="text-3xl font-bold">13+</p>
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400" x-text="t.about.stats.linux"></p>
+                            </div>
+                            <div>
+                                <p class="text-3xl font-bold">SaaS</p>
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400" x-text="t.about.stats.saas"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-24 md:py-32 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-200 dark:border-zinc-800/50">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-4">
+                        <span class="text-sm font-mono text-accent" x-text="'02 -- ' + t.nav.skills"></span>
+                    </div>
+
+                    <div class="lg:col-span-8 space-y-12">
+                        <!-- Skill Bars -->
+                        <div class="space-y-6">
+                            <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500" x-text="t.skills.proficiency"></h3>
+                            <div class="space-y-4">
+                                <template x-for="skill in skills" :key="skill.name">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300" x-text="skill.name"></span>
+                                            <span class="text-xs font-mono text-zinc-400" x-text="skill.level + '/100'"></span>
+                                        </div>
+                                        <div class="h-2 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-accent rounded-full skill-bar" :style="'width: ' + skill.level + '%'"></div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Skills Grid -->
+                        <div class="grid md:grid-cols-2 gap-8 pt-8 border-t border-zinc-200 dark:border-zinc-800/50">
+                            <div class="space-y-4">
+                                <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Backend & APIs</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">PHP</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">10+ years</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Laravel</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">8+ years</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">REST APIs / HATEOAS</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Node.js / TypeScript</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">proficient</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">OAuth2 / JWT</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Databases</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">PostgreSQL</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">MySQL / MariaDB</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Redis</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">MongoDB</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">proficient</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Query Optimization</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Infrastructure</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Linux</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">13+ years</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Docker</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">AWS (EC2, RDS, S3, Lambda)</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">proficient</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">CI/CD / GitHub Actions</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">proficient</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Nginx</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">proficient</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Frontend & AI</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Vue.js / Nuxt</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">TailwindCSS</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Alpine.js</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">advanced</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">Inertia.js</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">proficient</span></li>
+                                    <li class="flex items-center justify-between group"><span class="text-zinc-700 dark:text-zinc-300">LLM / RAG</span><span class="font-mono text-xs text-zinc-400 group-hover:text-accent transition-colors">learning</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Practices -->
+                        <div class="pt-8 border-t border-zinc-200 dark:border-zinc-800/50">
+                            <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-4" x-text="t.skills.practices"></h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">Clean Architecture</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">SOLID</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">Design Patterns</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">DDD</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">TDD</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">PHPUnit / Pest</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">API Versioning</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">Multi-tenancy</span>
+                                <span class="px-3 py-1.5 text-sm bg-zinc-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 rounded-md">Queues & Workers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-24 md:py-32 border-t border-zinc-200 dark:border-zinc-800/50">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-4">
+                        <span class="text-sm font-mono text-accent" x-text="'03 -- ' + t.nav.experience"></span>
+                    </div>
+
+                    <div class="lg:col-span-8">
+                        <div class="space-y-12">
+                            <template x-for="(job, index) in experiences" :key="job.company">
+                                <div class="relative pl-8 border-l-2 border-zinc-200 dark:border-zinc-800 hover:border-accent transition-colors">
+                                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full border-4 border-white dark:border-zinc-950" :class="index === 0 ? 'bg-accent' : 'bg-zinc-300 dark:bg-zinc-700'"></div>
+                                    <div class="space-y-2">
+                                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                                            <h3 class="text-lg font-semibold" x-text="job.company"></h3>
+                                            <span class="text-sm font-mono text-zinc-400" x-text="localize(job.period)"></span>
+                                        </div>
+                                        <p class="font-medium" :class="index === 0 ? 'text-accent' : 'text-zinc-600 dark:text-zinc-300'" x-text="localize(job.role)"></p>
+                                        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed" x-text="localize(job.description)"></p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section (Dynamic) -->
+        <section x-show="portfolio.length > 0" id="portfolio" class="py-24 md:py-32 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-200 dark:border-zinc-800/50">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-4">
+                        <span class="text-sm font-mono text-accent" x-text="'04 -- ' + t.nav.portfolio"></span>
+                    </div>
+
+                    <div class="lg:col-span-8">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <template x-for="item in portfolio" :key="item.id">
+                                <a :href="getLocalizedContent(item).url" target="_blank" class="group block">
+                                    <div class="bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700/50 overflow-hidden hover:border-accent/50 transition-all hover:shadow-lg">
+                                        <div class="aspect-video bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+                                            <img :src="item.images.thumbnail" :alt="getLocalizedContent(item).title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </div>
+                                        <div class="p-5 space-y-2">
+                                            <div class="flex items-center gap-2">
+                                                <span class="px-2 py-0.5 text-xs font-mono bg-accent/10 text-accent rounded" x-text="item.type"></span>
+                                                <template x-for="tag in (item.tags || []).slice(0, 2)" :key="tag">
+                                                    <span class="px-2 py-0.5 text-xs font-mono bg-zinc-100 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 rounded" x-text="tag"></span>
+                                                </template>
+                                            </div>
+                                            <h3 class="font-semibold text-zinc-900 dark:text-white group-hover:text-accent transition-colors" x-text="getLocalizedContent(item).title"></h3>
+                                            <p class="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2" x-text="getLocalizedContent(item).small_description"></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Links Section -->
+        <section id="links" class="py-24 md:py-32 border-t border-zinc-200 dark:border-zinc-800/50" :class="portfolio.length > 0 ? '' : 'bg-zinc-50 dark:bg-zinc-900/50'">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-4">
+                        <span class="text-sm font-mono text-accent" x-text="(portfolio.length > 0 ? '05' : '04') + ' -- ' + t.nav.links"></span>
+                    </div>
+
+                    <div class="lg:col-span-8">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <template x-for="link in links" :key="link.id">
+                                <a :href="link.url" :target="link.external ? '_blank' : '_self'" class="group flex items-start gap-4 p-5 bg-white dark:bg-zinc-800/30 rounded-xl border border-zinc-200 dark:border-zinc-700/50 hover:border-accent/50 transition-all hover:shadow-lg">
+                                    <div class="w-10 h-10 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-lg shrink-0 group-hover:bg-accent/10 transition-colors">
+                                        <img :src="link.icon" alt="" class="w-5 h-5 dark:invert group-hover:dark:invert-0">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium text-zinc-900 dark:text-white group-hover:text-accent transition-colors" x-text="localize(link.title)"></p>
+                                        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5" x-text="localize(link.description)"></p>
+                                        <span x-show="link.badge" class="inline-block mt-2 px-2 py-0.5 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded" x-text="localize(link.badge)"></span>
+                                    </div>
+                                    <svg class="w-5 h-5 text-zinc-400 group-hover:text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </template>
+                        </div>
+
+                        <!-- Download CV -->
+                        <div class="mt-8 p-6 bg-zinc-100 dark:bg-zinc-800/30 rounded-xl border border-zinc-200 dark:border-zinc-700/50">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div>
+                                    <p class="font-medium text-zinc-900 dark:text-white" x-text="t.links.downloadCv"></p>
+                                    <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5" x-text="t.links.downloadCvDesc"></p>
+                                </div>
+                                <div class="flex gap-3">
+                                    <a href="./files/Tiago-Franca-cv-en.pdf" download class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600 text-zinc-700 dark:text-white text-sm font-medium rounded-lg border border-zinc-200 dark:border-zinc-600 transition-colors">
+                                        <img src="https://api.iconify.design/mdi:file-pdf-box.svg?color=%23888" alt="" class="w-4 h-4 dark:invert">English
+                                    </a>
+                                    <a href="./files/Tiago-Franca-cv-pt-br.pdf" download class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600 text-zinc-700 dark:text-white text-sm font-medium rounded-lg border border-zinc-200 dark:border-zinc-600 transition-colors">
+                                        <img src="https://api.iconify.design/mdi:file-pdf-box.svg?color=%23888" alt="" class="w-4 h-4 dark:invert">Portugues
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 md:py-32 border-t border-zinc-200 dark:border-zinc-800/50" :class="portfolio.length > 0 ? 'bg-zinc-50 dark:bg-zinc-900/50' : ''">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-4">
+                        <span class="text-sm font-mono text-accent" x-text="(portfolio.length > 0 ? '06' : '05') + ' -- ' + t.nav.contact"></span>
+                    </div>
+
+                    <div class="lg:col-span-8 space-y-8">
+                        <div class="space-y-4">
+                            <h2 class="text-3xl md:text-4xl font-bold" x-text="t.contact.title"></h2>
+                            <p class="text-zinc-500 dark:text-zinc-400 max-w-xl" x-text="t.contact.subtitle"></p>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+
+                            <!-- Email card - contact data is obfuscated; no raw address in DOM or href -->
+                            <div class="flex gap-4 p-4 bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700/50 hover:border-accent/50 transition-colors group">
+                                <div class="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg shrink-0 mt-0.5">
+                                    <img src="https://api.iconify.design/mdi:email-outline.svg?color=%2310b981" alt="" class="w-6 h-6">
+                                </div>
+                                <div class="flex-1 min-w-0 space-y-2">
+                                    <p class="text-sm text-zinc-500 dark:text-zinc-400">Email</p>
+
+                                    <!-- Masked state -->
+                                    <div x-show="!contactRevealed.email">
+                                        <p class="font-mono text-sm text-zinc-400 dark:text-zinc-500 select-none truncate">t****@t*****f*****.com</p>
+                                        <div class="flex gap-2 mt-2">
+                                            <button
+                                                @click="revealEmail()"
+                                                class="text-xs px-3 py-1 rounded-md bg-accent/10 text-accent hover:bg-accent/20 transition-colors"
+                                                aria-label="Reveal email address"
+                                            >show</button>
+                                            <button
+                                                @click="revealEmail(); $nextTick(() => navigator.clipboard.writeText(contact.email))"
+                                                class="text-xs px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-600 transition-colors"
+                                                aria-label="Copy email address"
+                                            >copy</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Revealed state: href is bound dynamically, never hardcoded in HTML -->
+                                    <div x-show="contactRevealed.email" class="space-y-2">
+                                        <a :href="'mailto:' + contact.email" class="font-medium text-sm group-hover:text-accent transition-colors truncate block" x-text="contact.email"></a>
+                                        <button
+                                            @click="navigator.clipboard.writeText(contact.email)"
+                                            class="text-xs px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-600 transition-colors"
+                                            aria-label="Copy email address"
+                                        >copy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WhatsApp card - no wa.me link in HTML; decoded and opened on click -->
+                            <div class="flex gap-4 p-4 bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700/50 hover:border-accent/50 transition-colors group">
+                                <div class="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg shrink-0 mt-0.5">
+                                    <img src="https://api.iconify.design/mdi:whatsapp.svg?color=%2310b981" alt="" class="w-6 h-6">
+                                </div>
+                                <div class="flex-1 min-w-0 space-y-2">
+                                    <p class="text-sm text-zinc-500 dark:text-zinc-400">WhatsApp</p>
+
+                                    <!-- Masked state -->
+                                    <div x-show="!contactRevealed.phone">
+                                        <p class="font-mono text-sm text-zinc-400 dark:text-zinc-500 select-none">+55 41 ****-****</p>
+                                        <div class="flex gap-2 mt-2">
+                                            <button
+                                                @click="revealPhone()"
+                                                class="text-xs px-3 py-1 rounded-md bg-accent/10 text-accent hover:bg-accent/20 transition-colors"
+                                                aria-label="Reveal phone number"
+                                            >show</button>
+                                            <button
+                                                @click="openWhatsApp()"
+                                                class="text-xs px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-600 transition-colors"
+                                                aria-label="Open WhatsApp"
+                                            >open</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Revealed state: phone number rendered from decoded data -->
+                                    <div x-show="contactRevealed.phone" class="space-y-2">
+                                        <p class="font-medium text-sm group-hover:text-accent transition-colors" x-text="contact.phone"></p>
+                                        <button
+                                            @click="openWhatsApp()"
+                                            class="text-xs px-3 py-1 rounded-md bg-accent/10 text-accent hover:bg-accent/20 transition-colors"
+                                            aria-label="Open WhatsApp"
+                                        >open</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="pt-4">
+                            <a href="https://linkedin.com/in/tiago-php" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-accent hover:bg-accent-dark text-white font-medium rounded-xl transition-colors shadow-lg shadow-accent/20">
+                                <img src="https://api.iconify.design/mdi:linkedin.svg?color=%23fff" alt="" class="w-5 h-5">
+                                <span x-text="t.contact.cta"></span>
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                            </a>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3 pt-4">
+                            <a href="https://linkedin.com/in/tiago-php" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg transition-colors">
+                                <img src="https://api.iconify.design/mdi:linkedin.svg?color=%23888" alt="" class="w-5 h-5 dark:invert"><span class="text-sm font-medium">LinkedIn</span>
+                            </a>
+                            <a href="https://github.com/tiagofrancafernandes" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg transition-colors">
+                                <img src="https://api.iconify.design/mdi:github.svg?color=%23888" alt="" class="w-5 h-5 dark:invert"><span class="text-sm font-medium">GitHub</span>
+                            </a>
+                            <a href="https://www.superprof.com.br/aulas-programacao-php-laravel-basico-avancado-sem-restricao-idade.html" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg transition-colors">
+                                <img src="https://api.iconify.design/mdi:school-outline.svg?color=%23888" alt="" class="w-5 h-5 dark:invert"><span class="text-sm font-medium">SuperProf</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-zinc-200 dark:border-zinc-800/50">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">&copy; <span x-text="new Date().getFullYear()"></span> Tiago Franca. <span x-text="t.footer.rights"></span></p>
+                <p class="text-sm text-zinc-400 dark:text-zinc-500">Curitiba, PR - Brazil</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alpine.js App -->
+    <script>
+        function app() {
+            return {
+                darkMode: true,
+                lang: 'en',
+                mobileMenu: false,
+                portfolio: [],
+
+                // -------------------------------------------------------
+                // CONTACT DATA - base64-encoded to prevent crawler/scraper
+                // harvesting. This is obfuscation, not encryption. The goal
+                // is to keep raw email addresses and phone numbers out of
+                // the HTML source and out of any plain-text JS strings.
+                //
+                // To regenerate _cd, run this in the browser console:
+                //   btoa(JSON.stringify({ email: 'your@email.com', phone: '+55 XX XXXXX-XXXX', wa: '55XXXXXXXXXXX' }))
+                // 'wa' must contain digits only (no +, spaces, or dashes).
+                // Replace the string below with the output.
+                // -------------------------------------------------------
+                _cd: 'eyJlbWFpbCI6InRpYWdvQHRpYWdvZnJhbmNhLmNvbSIsInBob25lIjoiKzU1IDQxIDk4NDQwLTI2ODQiLCJ3YSI6IjU1NDE5ODQ0MDI2ODQifQ==',
+                contactRevealed: { email: false, phone: false },
+                contact: { email: null, phone: null },
+
+                coreStack: ['PHP', 'Laravel', 'PostgreSQL', 'AWS', 'Docker'],
+
+                skills: [
+                    { name: 'PHP', level: 90 },
+                    { name: 'Laravel', level: 85 },
+                    { name: 'TailwindCSS', level: 80 },
+                    { name: 'Linux', level: 80 },
+                    { name: 'Node.js', level: 70 },
+                    { name: 'PostgreSQL', level: 70 },
+                    { name: 'Vue.js / Nuxt', level: 70 },
+                    { name: 'Docker', level: 70 },
+                    { name: 'LLM / RAG', level: 60 },
+                ],
+
+                experiences: [
+                    {
+                        company: 'F2 Sistemas',
+                        period: { en: 'Nov 2023 - Present', pt: 'Nov 2023 - Atual' },
+                        role: { en: 'Senior Backend Engineer & Technical Consultant', pt: 'Senior Backend Engineer & Consultor Tecnico' },
+                        description: {
+                            en: 'Development of scalable applications with Laravel and API-oriented architecture. Consultative role in critical situations, complex query optimization, and legacy system refactoring.',
+                            pt: 'Desenvolvimento de aplicacoes escalaveis com Laravel e arquitetura orientada a API. Atuacao consultiva em situacoes criticas, otimizacao de queries complexas e refatoracao de sistemas legados.'
+                        }
+                    },
+                    {
+                        company: 'Grupo GPS',
+                        period: { en: 'Jun 2023 - Nov 2023', pt: 'Jun 2023 - Nov 2023' },
+                        role: { en: 'Senior Backend Developer', pt: 'Desenvolvedor Backend Senior' },
+                        description: {
+                            en: 'Modernization of strategic internal systems, creation and maintenance of REST APIs, infrastructure improvements, and database optimization.',
+                            pt: 'Modernizacao de sistemas internos estrategicos, criacao e manutencao de APIs REST, melhorias de infraestrutura e otimizacao de banco de dados.'
+                        }
+                    },
+                    {
+                        company: 'So Carrao',
+                        period: { en: 'Jan 2023 - May 2023', pt: 'Jan 2023 - Mai 2023' },
+                        role: { en: 'Backend Developer', pt: 'Desenvolvedor Backend' },
+                        description: {
+                            en: 'Application development with Laravel, AWS service integrations, and performance optimization.',
+                            pt: 'Desenvolvimento de aplicacoes com Laravel, integracoes com servicos AWS e otimizacao de performance.'
+                        }
+                    },
+                    {
+                        company: 'Pontomais',
+                        period: { en: 'Sep 2019 - Oct 2022', pt: 'Set 2019 - Out 2022' },
+                        role: { en: 'Senior PHP Backend Developer', pt: 'Desenvolvedor Backend PHP Senior' },
+                        description: {
+                            en: 'Development of critical features for a SaaS workforce management system. Implementation of complex business rules, financial calculations, and external API integrations.',
+                            pt: 'Desenvolvimento de funcionalidades criticas para sistema SaaS de gestao de ponto. Implementacao de regras de negocio complexas, calculos financeiros e integracoes com APIs externas.'
+                        }
+                    },
+                    {
+                        company: 'Superprof Brasil',
+                        period: { en: '2019 - Present', pt: '2019 - Atual' },
+                        role: { en: 'Programming Instructor', pt: 'Professor de Programacao' },
+                        description: {
+                            en: 'Mentoring and training developers from beginner to advanced. Practical classes on PHP, Laravel, Linux, Docker, and DevOps fundamentals.',
+                            pt: 'Mentoria e formacao de desenvolvedores do basico ao avancado. Aulas praticas de PHP, Laravel, Linux, Docker e fundamentos de DevOps.'
+                        }
+                    }
+                ],
+
+                links: [
+                    {
+                        id: 'linkedin',
+                        title: { en: 'LinkedIn', pt: 'LinkedIn' },
+                        description: { en: 'Professional profile and work history', pt: 'Perfil profissional e historico de trabalho' },
+                        url: 'https://linkedin.com/in/tiago-php',
+                        icon: 'https://api.iconify.design/mdi:linkedin.svg?color=%23888',
+                        external: true,
+                        badge: null
+                    },
+                    {
+                        id: 'github',
+                        title: { en: 'GitHub', pt: 'GitHub' },
+                        description: { en: 'Open source projects and experiments', pt: 'Projetos open source e experimentos' },
+                        url: 'https://github.com/tiagofrancafernandes',
+                        icon: 'https://api.iconify.design/mdi:github.svg?color=%23888',
+                        external: true,
+                        badge: null
+                    },
+                    {
+                        id: 'dozeroaodeploy',
+                        title: { en: 'Jornada do Zero ao Deploy', pt: 'Jornada do Zero ao Deploy' },
+                        description: { en: 'Bootcamp for modern web development', pt: 'Bootcamp para desenvolvimento web moderno' },
+                        url: 'https://lp.dozeroaodeploy.com.br/',
+                        icon: 'https://api.iconify.design/mdi:rocket-launch-outline.svg?color=%23888',
+                        external: true,
+                        badge: { en: 'Registrations closed', pt: 'Inscricoes encerradas' }
+                    },
+                    {
+                        id: 'superprof',
+                        title: { en: 'SuperProf', pt: 'SuperProf' },
+                        description: { en: 'Private programming lessons', pt: 'Aulas particulares de programacao' },
+                        url: 'https://www.superprof.com.br/aulas-programacao-php-laravel-basico-avancado-sem-restricao-idade.html',
+                        icon: 'https://api.iconify.design/mdi:school-outline.svg?color=%23888',
+                        external: true,
+                        badge: null
+                    }
+                ],
+
+                translations: {
+                    en: {
+                        meta: { title: 'Tiago Franca - Senior Backend Engineer', description: 'Senior software engineer specialized in PHP, Laravel, APIs and system architecture. Building robust, scalable systems.' },
+                        nav: { about: 'About', skills: 'Skills', experience: 'Experience', portfolio: 'Portfolio', links: 'Links', contact: 'Contact' },
+                        hero: { status: 'Available for new opportunities', tagline: 'Building robust, scalable, and well-organized systems focused on architecture, performance, and maintainability.', cta: { contact: 'Get in touch' } },
+                        about: {
+                            p1: 'Senior software engineer with 10+ years of experience, specialized in backend development and scalable API architecture.',
+                            p2: 'My approach is pragmatic: I prioritize simple, well-structured, and predictable solutions. I avoid unnecessary complexity and think architecture-first before implementation.',
+                            p3: 'I have hands-on experience with real production systems, including multi-tenant SaaS, high-concurrency APIs, and service integrations.',
+                            viewCert: 'View certificate',
+                            stats: { years: 'years of experience', laravel: 'years with Laravel', linux: 'years with Linux', saas: 'Multi-tenant' }
+                        },
+                        skills: { proficiency: 'Proficiency Level', practices: 'Architecture & Practices' },
+                        links: { downloadCv: 'Download CV', downloadCvDesc: 'Get my resume in PDF format' },
+                        contact: { title: "Let's talk?", subtitle: "I'm open to new opportunities and interesting projects. Get in touch to discuss how I can contribute.", cta: 'Connect on LinkedIn' },
+                        footer: { rights: 'All rights reserved.' }
+                    },
+                    pt: {
+                        meta: { title: 'Tiago Franca - Senior Backend Engineer', description: 'Engenheiro de software senior especializado em PHP, Laravel, APIs e arquitetura de sistemas.' },
+                        nav: { about: 'Sobre', skills: 'Skills', experience: 'Experiencia', portfolio: 'Portfolio', links: 'Links', contact: 'Contato' },
+                        hero: { status: 'Disponivel para novas oportunidades', tagline: 'Construindo sistemas robustos, escalaveis e bem organizados com foco em arquitetura, performance e manutenibilidade.', cta: { contact: 'Entre em contato' } },
+                        about: {
+                            p1: 'Engenheiro de software senior com mais de 10 anos de experiencia, especializado em backend e arquitetura de APIs escalaveis.',
+                            p2: 'Minha abordagem e pragmatica: priorizo solucoes simples, bem estruturadas e previsiveis. Evito complexidade desnecessaria e penso primeiro na arquitetura antes da implementacao.',
+                            p3: 'Tenho experiencia pratica com sistemas reais em producao, incluindo SaaS multi-tenant, APIs de alta concorrencia e integracoes entre servicos.',
+                            viewCert: 'Ver certificado',
+                            stats: { years: 'anos de experiencia', laravel: 'anos com Laravel', linux: 'anos com Linux', saas: 'Multi-tenant' }
+                        },
+                        skills: { proficiency: 'Nivel de Proficiencia', practices: 'Arquitetura & Praticas' },
+                        links: { downloadCv: 'Baixar CV', downloadCvDesc: 'Obtenha meu curriculo em formato PDF' },
+                        contact: { title: 'Vamos conversar?', subtitle: 'Estou aberto a novas oportunidades e projetos interessantes. Entre em contato para discutirmos como posso contribuir.', cta: 'Conectar no LinkedIn' },
+                        footer: { rights: 'Todos os direitos reservados.' }
+                    }
+                },
+
+                get t() {
+                    return this.translations[this.lang] || this.translations['en'];
+                },
+
+                localize(obj) {
+                    if (typeof obj === 'string') return obj;
+                    if (!obj) return '';
+                    return obj[this.lang] || obj['en'] || obj['pt'] || Object.values(obj)[0] || '';
+                },
+
+                getLocalizedContent(item) {
+                    const localized = item.localized;
+                    const langKey = this.lang === 'pt' ? 'pt-br' : 'en';
+                    return localized[langKey] || localized['en'] || localized['pt-br'] || Object.values(localized)[0];
+                },
+
+                // Decodes _cd at call time only -- never stored in clear text
+                _decodeContact() {
+                    try {
+                        return JSON.parse(atob(this._cd));
+                    } catch {
+                        return {};
+                    }
+                },
+
+                revealEmail() {
+                    const d = this._decodeContact();
+                    this.contact.email = d.email || '';
+                    this.contactRevealed.email = true;
+                },
+
+                // Reveals the phone number in the UI without opening WhatsApp
+                revealPhone() {
+                    const d = this._decodeContact();
+                    this.contact.phone = d.phone || '';
+                    this.contactRevealed.phone = true;
+                },
+
+                // Decodes wa number, reveals phone in UI, and opens wa.me in a new tab
+                openWhatsApp() {
+                    const d = this._decodeContact();
+                    this.contact.phone = d.phone || '';
+                    this.contactRevealed.phone = true;
+                    const num = (d.wa || '').replace(/\D/g, '');
+                    if (num) {
+                        window.open('https://wa.me/' + num, '_blank', 'noopener,noreferrer');
+                    }
+                },
+
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+                },
+
+                toggleLang() {
+                    this.lang = this.lang === 'pt' ? 'en' : 'pt';
+                    localStorage.setItem('lang', this.lang);
+                },
+
+                detectBrowserLang() {
+                    const browserLang = navigator.language || navigator.userLanguage;
+                    if (browserLang && browserLang.toLowerCase().startsWith('pt')) {
+                        return 'pt';
+                    }
+                    return 'en';
+                },
+
+                async fetchPortfolio() {
+                    try {
+                        const response = await fetch('https://cdn.tiagofranca.com/static-files/portfolio/list/data.json');
+                        if (!response.ok) throw new Error('Failed to fetch');
+                        const data = await response.json();
+                        if (data && Array.isArray(data.items) && data.items.length > 0) {
+                            this.portfolio = data.items;
+                        }
+                    } catch (error) {
+                        // Maybe I should add some error tracking here in the future?
+                        console.debug('Portfolio fetch skipped:', error.message);
+                        this.portfolio = [];
+                    }
+                },
+
+                init() {
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme) {
+                        this.darkMode = savedTheme === 'dark';
+                    } else {
+                        this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    }
+
+                    const savedLang = localStorage.getItem('lang');
+                    if (savedLang) {
+                        this.lang = savedLang;
+                    } else {
+                        this.lang = this.detectBrowserLang();
+                    }
+
+                    this.fetchPortfolio();
+
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                        if (!localStorage.getItem('theme')) {
+                            this.darkMode = e.matches;
+                        }
+                    });
+                }
+            };
+        }
+    </script>
 </body>
 </html>
